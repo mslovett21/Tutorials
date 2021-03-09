@@ -98,15 +98,20 @@ tc.add_containers(mask_detection_wf_cont)
 dist_plot = Transformation(
                 "dist_plot",
                 site = "condorpool",
-                pfn = os.path.join(os.getcwd(),"bin/plot_class_distribution.py"),
+                pfn = "/app/bin/plot_class_distribution.py",
                 is_stageable = False,
                 container = mask_detection_wf_cont 
             )
-
 ```
 
-### Execute the scripts in the docker without Pegasus to make sure the Dockerfile is correct
+## DEBUGGING
+### Mount your local file system to Docker
+Execute the scripts in the docker without Pegasus to make sure the Dockerfile is correct
 
+Run built docker image named test in interactive mode (-it flag),
+Mount volume to the test docker
+You cwd is mounted to /app folder inside the docker
+You can not execute python3 script located there
 ```
-docker run --rm -ti -v `pwd`:/host test /host/data_aug.py
+docker run -it -v $PWD:/app test python3 /app/data_aug.py
 ```
